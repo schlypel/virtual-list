@@ -68,6 +68,7 @@ var list = new VirtualList('idOfTargetElement', {
 list.setRowNum(1337);
 
 // This will tell you, down to which row the container is scrolled right now
+var rowNum = list.getRowNum();
 ```
 
 ## Caveats
