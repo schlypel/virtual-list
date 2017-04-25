@@ -22,6 +22,10 @@
  * SOFTWARE.
  */
 
+/**
+ * additions by @schlypel (setRowNum/getRowNum, attach to elementById)
+ */
+
 'use strict';
 
 /**
@@ -29,7 +33,7 @@
  * @param {object} config
  * @constructor
  */
-function VirtualList(config) {
+function VirtualList(target, config) {
   var width = (config && config.w + 'px') || '100%';
   var height = (config && config.h + 'px') || '100%';
   var itemHeight = this.itemHeight = config.itemHeight;
@@ -76,7 +80,17 @@ function VirtualList(config) {
   }
 
   this.container.addEventListener('scroll', onScroll);
+  document.getElementById(target).appendChild(this.container);
 }
+
+VirtualList.prototype.getRowNum = function()
+{
+	return parseInt(this.container.scrollTop / this.itemHeight);
+};
+VirtualList.prototype.setRowNum = function(num)
+{
+	this.container.scrollTop = num * this.itemHeight;
+};
 
 VirtualList.prototype.createRow = function(i) {
   var item;
@@ -136,7 +150,7 @@ VirtualList.createContainer = function(w, h) {
   c.style.overflow = 'auto';
   c.style.position = 'relative';
   c.style.padding = 0;
-  c.style.border = '1px solid black';
+  c.style.border = '3px solid blue';
   return c;
 };
 
@@ -150,3 +164,4 @@ VirtualList.createScroller = function(h) {
   scroller.style.height = h + 'px';
   return scroller;
 };
+
